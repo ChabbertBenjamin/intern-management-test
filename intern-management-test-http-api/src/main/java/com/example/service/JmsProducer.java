@@ -12,14 +12,24 @@ import java.util.logging.Logger;
 @Component
 public class JmsProducer {
     @Autowired
-    @Qualifier("MyQueueProducer")
-    private JmsTemplate jmsTemplate;
+    @Qualifier("PostRequestProducer")
+    private JmsTemplate jmsTemplateForPostProducer;
+
+    @Autowired
+    @Qualifier("GetRequestProducer")
+    private JmsTemplate jmsTemplateForGetProducer;
 
     final Logger logger = Logger.getLogger(String.valueOf(JmsProducer.class));
 
     public void sendMessage(Intern internJson) {
         com.example.dto.Intern internXml = InternMapper.MAPPER.fromJsonToXmlIntern(internJson);
-        jmsTemplate.convertAndSend(internXml);
-        logger.info("New intern send " +"firstname : " + internXml.getFirstName() + " | lastname : " + internXml.getLastName() +" to the BROKER]");
+        jmsTemplateForPostProducer.convertAndSend(internXml);
+        logger.info("[PRODUCING : POST] {" +"firstname : " + internXml.getFirstName() + " | lastname :" + internXml.getLastName() +"}");
+    }
+
+    public void sendMessageForGetById(Intern internXml) {
+        logger.info("[PRODUCING : GET] {" +"Intern_ID : " + internXml.getIdIntern() + "}");
+        jmsTemplateForGetProducer.convertAndSend(internXml);
+
     }
 }

@@ -19,8 +19,23 @@ public class JmsConfig {
     @Autowired
     private ConnectionFactory connectionFactory;
 
-    @Bean("MyQueueConsumer")
-    public DefaultJmsListenerContainerFactory myQueueConsumerJmsListenerContainerFactory() {
+    @Bean("PostRequestConsumer")
+    public DefaultJmsListenerContainerFactory myQueueConsumerJmsListenerContainerFactoryPost() {
+        DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
+        factory.setConnectionFactory(connectionFactory);
+        factory.setSessionTransacted(true);
+        MarshallingMessageConverter converter = new MarshallingMessageConverter();
+        Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
+        marshaller.setContextPath("com.example.dto");
+        converter.setMarshaller(marshaller);
+        converter.setUnmarshaller(marshaller);
+        converter.setTargetType(MessageType.TEXT);
+        factory.setMessageConverter(converter);
+        return factory;
+    }
+
+    @Bean("GetRequestConsumer")
+    public DefaultJmsListenerContainerFactory myQueueConsumerJmsListenerContainerFactoryGet() {
         DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
         factory.setConnectionFactory(connectionFactory);
         factory.setSessionTransacted(true);

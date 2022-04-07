@@ -1,30 +1,23 @@
 package com.example.model;
 
 
-
+import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
-import javax.persistence.*;
 
-@Entity
-@Table(name="Intern")
+
+@RedisHash(value = "Intern",timeToLive = 15)
 public class Intern {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idIntern")
-    private Long idIntern;
-
-    @Column(name= "firstName")
+    private int idIntern;
     private String firstName;
-
-    @Column(name = "lastName")
     private String lastName;
 
-    public Long getIdIntern() {
+    public int getIdIntern() {
         return idIntern;
     }
 
-    public void setIdIntern(Long idIntern) {
+    public void setIdIntern(int idIntern) {
         this.idIntern = idIntern;
     }
 

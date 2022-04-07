@@ -8,13 +8,13 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
+//@NoArgsConstructor
 @RequiredArgsConstructor
 public class Intern {
-    @JsonProperty("Id_Inter")
-    private int idInter;
-    @JsonProperty("First_Name")
+    @JsonProperty("idIntern")
+    private int idIntern;
+    @JsonProperty("firstName")
     private String firstName;
-    @JsonProperty("Last_Name")
+    @JsonProperty("lastName")
     private String lastName;
 }

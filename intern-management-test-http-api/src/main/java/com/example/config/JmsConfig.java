@@ -20,10 +20,25 @@ public class JmsConfig {
     @Autowired
     private ConnectionFactory connectionFactory;
 
-    @Bean("MyQueueProducer")
+    @Bean("PostRequestProducer")
     public JmsTemplate jmsTemplate() {
         JmsTemplate jmsTemplate = new JmsTemplate();
-        jmsTemplate.setDefaultDestinationName("TestQueue");
+        jmsTemplate.setDefaultDestinationName("PostRequestProducer");
+        jmsTemplate.setConnectionFactory(connectionFactory);
+        MarshallingMessageConverter converter = new MarshallingMessageConverter();
+        Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
+        marshaller.setContextPath("com.example.dto");
+        converter.setMarshaller(marshaller);
+        converter.setUnmarshaller(marshaller);
+        converter.setTargetType(MessageType.TEXT);
+        jmsTemplate.setMessageConverter(converter);
+        return jmsTemplate;
+    }
+
+    @Bean("GetRequestProducer")
+    public JmsTemplate jmsTemplateForGetProducer() {
+        JmsTemplate jmsTemplate = new JmsTemplate();
+        jmsTemplate.setDefaultDestinationName("GetRequestProducer");
         jmsTemplate.setConnectionFactory(connectionFactory);
         MarshallingMessageConverter converter = new MarshallingMessageConverter();
         Jaxb2Marshaller marshaller = new Jaxb2Marshaller();

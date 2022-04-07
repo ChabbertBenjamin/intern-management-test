@@ -7,7 +7,7 @@ import org.mapstruct.factory.Mappers;
 @Mapper
 public interface InternMapper {
     InternMapper MAPPER = Mappers.getMapper( InternMapper.class );
-    @Mapping(source = "idIntern", target = "idInter")
+    @Mapping(source = "idIntern", target = "idIntern")
     @Mapping(source = "firstName", target = "firstName")
     @Mapping(source = "lastName", target = "lastName")
     Intern fromJsonToXmlIntern(Intern intern);

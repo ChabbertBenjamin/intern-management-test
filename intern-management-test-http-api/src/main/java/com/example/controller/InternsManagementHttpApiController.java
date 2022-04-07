@@ -1,8 +1,9 @@
 package com.example.controller;
 
-import com.example.dto.Intern;
+import com.example.dto.json.Intern;
 import com.example.service.InternsManagementHttpApiService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,9 +21,9 @@ public class InternsManagementHttpApiController {
         return this.internsManagementHttpApiService.getAllInterns();
     }
 
-    @GetMapping("intern/{firstName}")
-    public Intern getAnInternByFirstName(@PathVariable String firstName){
-        return this.internsManagementHttpApiService.getAnInternByFirstName(firstName);
+    @GetMapping("intern/{internId}")
+    public Intern getAnInternById(@PathVariable String internId){
+        return this.internsManagementHttpApiService.getAnInternByIdInCacheOrDb(internId);
     }
 
     @GetMapping("intern")
@@ -31,9 +32,9 @@ public class InternsManagementHttpApiController {
     }
 
     @PostMapping("intern")
-    public String addAnIntern(@RequestBody Intern intern) {
+    public String addAnIntern(@RequestBody com.example.dto.Intern intern) {
         this.internsManagementHttpApiService.addAnIntern(intern);
-        return "Your resquest has been taken in account";
+        return "Your request has been taken in account";
     }
 
     @DeleteMapping("intern/{idIntern}")
